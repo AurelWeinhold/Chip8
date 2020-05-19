@@ -1,0 +1,2 @@
+#define Chip8_VERSION_MAJOR @Chip8Emulator_VERSION_MAJOR@
+#define Chip8_VERSION_MINOR @Chip8Emulator_VERSION_MINOR@
