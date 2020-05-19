@@ -7,9 +7,8 @@
  * Information is fetched from the [chip-8 Wikipedia article](https://en.wikipedia.org/wiki/CHIP-8)
  */
 
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <iostream>
 
 #include "Chip8Config.h"
 
@@ -19,6 +18,7 @@ typedef struct chip8 {
 
 
 int main(int argc, char *args[]) {
+
 
     // NOTE(aurel): Memory:
     //   - 4096 Bytes = 4KB
@@ -47,6 +47,6 @@ int main(int argc, char *args[]) {
     // TODO(aurel): emulate the program counter
     // TODO(aurel): fetch the current opcode
 
-    printf("Hello world! Version %d.%d\n", Chip8_VERSION_MAJOR, Chip8_VERSION_MINOR);
+    std::cout << "Hello world! Version: " << Chip8_VERSION_MAJOR << "." << Chip8_VERSION_MINOR << "\n";
     return 0;
 }
