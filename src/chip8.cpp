@@ -51,6 +51,32 @@ int main(int argc, char *args[]) {
     char *memory = new (std::nothrow) char[4096];
 
     // TODO(aurel): load the ROM into memory
+    std::ifstream rom;
+    std::streampos size;
+
+    // NOTE(aurel): Open file in read mode (in), binary mode (binary) and set pointer to end of file (ate)
+    rom.open("c8games/PONG", std::ios::in | std::ios::binary | std::ios::ate);
+    if (rom.is_open()) {
+        size = rom.tellg();
+        rom.seekg(0, std::ios::beg);
+        rom.read(memory, size);
+        rom.close();
+    }
+
+    //std::cout << size;
+    for (int i = 0; i < size; i += 2) {
+        uint16_t instruction = (memory[i] << 8) | memory[i + 1];
+        uint16_t instruction2 = (memory[i + 1] << 8) | memory[i];
+        switch (instruction) {
+            case (0x00e0):
+                std::cout << "Display" << '\n';
+            case (0x00ee):
+                std::cout << "return" << '\n';
+            default:
+                std::cout << "Unknown instruction: " << std::hex << std::setw(4) << std::setfill('0') << instruction << " - ";
+                std::cout << std::hex << std::setw(4) << std::setfill('0') << instruction2 << '\n';
+        }
+    }
 
     // TODO(aurel): emulate the program counter
 
