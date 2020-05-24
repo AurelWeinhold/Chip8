@@ -7,8 +7,12 @@
  * Information is fetched from the [chip-8 Wikipedia article](https://en.wikipedia.org/wiki/CHIP-8)
  */
 
+#include <cstdlib>
 #include <cstdint>
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
 
 #include "Chip8Config.h"
 
@@ -16,9 +20,8 @@ typedef struct chip8 {
     uint16_t *memory;
 } chip8;
 
-
 int main(int argc, char *args[]) {
-
+    std::cout << "Hello world! Version: " << Chip8_VERSION_MAJOR << "." << Chip8_VERSION_MINOR << "\n\n";
 
     // NOTE(aurel): Memory:
     //   - 4096 Bytes = 4KB
@@ -43,10 +46,15 @@ int main(int argc, char *args[]) {
 
 
 
+    // TODO(aurel): Initialize memory
+    // NOTE(aurel): Chars are 8-bit wide!
+    char *memory = new (std::nothrow) char[4096];
+
     // TODO(aurel): load the ROM into memory
+
     // TODO(aurel): emulate the program counter
+
     // TODO(aurel): fetch the current opcode
 
-    std::cout << "Hello world! Version: " << Chip8_VERSION_MAJOR << "." << Chip8_VERSION_MINOR << "\n";
     return 0;
 }
