@@ -1,3 +1,5 @@
 c8games*
 tag*
 build
+compile_commands.json
+Makefile
