@@ -22,12 +22,17 @@ typedef struct chip8 {
     uint16_t *memory;
 } chip8;
 
+// TODO(aurel): Do I really want to save the instructions like this? Probably not.
+typedef struct instruction {
+    int f0,f1,f2,f3 : 4;
+} instruction;
+
 // TODO(aurel): Return the instruction.
 void detectInstruction(uint16_t instruction) {
     std::string instr_str = "";
 
     // TODO(aurel): Probably rewrite to only check the first 4 bit in the outermost switch
-    //  ((instruction & 0xf000) >> 3). This should make it more readable and avoid the ranged cases.
+    //  ((instruction & 0xf000) >> 3). This makes it more readable and avoids the ranged cases.
     switch (instruction) {
         case 0x0000 ... 0x0fff:
             switch (instruction & 0x0fff){
@@ -212,7 +217,6 @@ int main(int argc, char *args[]) {
         uint16_t instruction = (upper << 8) | lower;
 
         detectInstruction(instruction);
-
     }
 
     // TODO(aurel): emulate the program counter
