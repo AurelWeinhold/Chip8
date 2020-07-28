@@ -1,6 +1,6 @@
 /**
  * Author: Aurel Weinhold
- * File: src/chip8.c
+ * File: src/chip8.cpp
  * Created: 10:18 19.05.2020
  * License: MIT
  *
@@ -33,8 +33,8 @@ void detectInstruction(uint16_t instruction) {
 
     // TODO(aurel): Probably rewrite to only check the first 4 bit in the outermost switch
     //  ((instruction & 0xf000) >> 3). This makes it more readable and avoids the ranged cases.
-    switch (instruction) {
-        case 0x0000 ... 0x0fff:
+    switch ((instruction & 0xf000) >> 3) {
+        case 0x0:
             switch (instruction & 0x0fff){
                 case 0x0e0:
                     instr_str = "disp_clear()";
@@ -48,35 +48,35 @@ void detectInstruction(uint16_t instruction) {
             }
             break;
 
-        case 0x1000 ... 0x1fff:
+        case 0x1:
             instr_str = "Jump to";
             break;
 
-        case 0x2000 ... 0x2fff:
+        case 0x2:
             instr_str = "Call subroutine";
             break;
 
-        case 0x3000 ... 0x3fff:
+        case 0x3:
             instr_str = "Skip if Vx == NN";
             break;
 
-        case 0x4000 ... 0x4fff:
+        case 0x4:
             instr_str = "Skip if Vx != NN";
             break;
 
-        case 0x5000 ... 0x5ff0:
+        case 0x5:
             instr_str = "Skip if Vx == Vy";
             break;
 
-        case 0x6000 ... 0x6fff:
+        case 0x6:
             instr_str = "Vx = NN";
             break;
 
-        case 0x7000 ... 0x7fff:
+        case 0x7:
             instr_str = "Vx += NN";
             break;
 
-        case 0x8000 ... 0x8ffe:
+        case 0x8:
             switch (instruction & 0x000f) {
                 case 0x0:
                     instr_str = "Vx = Vy";
@@ -108,45 +108,44 @@ void detectInstruction(uint16_t instruction) {
             }
             break;
 
-        case 0x9000 ... 0x9ff0:
+        case 0x9:
             instr_str = "Skip if Vx != Vy";
             break;
 
-        case 0xa000 ... 0xafff:
+        case 0xA:
             instr_str = "I = NNN";
             break;
 
-        case 0xb000 ... 0xbfff:
+        case 0xB:
             instr_str = "Jump to NNN + V0";
             break;
 
 
-        case 0xc000 ... 0xcfff:
+        case 0xC:
             instr_str = "Vx = rand() & NN";
             break;
 
-        case 0xd000 ... 0xdfff:
+        case 0xD:
             instr_str = "draw(Vx, Vy, N)";
             break;
 
-            // EX9E and EXA1
-        case 0xe091 ... 0xefae:
+        case 0xE:
             switch (instruction & 0x00ff) {
-                case 0x91:
+                case 0x9E:
                     instr_str = "Skip if key() == Vx";
                     break;
-                case 0xa1:
+                case 0xA1:
                     instr_str = "Skip if key() != Vx";
                     break;
             }
             break;
 
-        case 0xf000 ... 0xff65:
+        case 0xF:
             switch (instruction & 0x00ff) {
                 case 0x07:
                     instr_str = "Vx = getDelay()";
                     break;
-                case 0x0a:
+                case 0x0A:
                     instr_str = "Vx = getKey()";
                     break;
                 case 0x15:
@@ -155,7 +154,7 @@ void detectInstruction(uint16_t instruction) {
                 case 0x18:
                     instr_str = "soundTimer(Vx)";
                     break;
-                case 0x1e:
+                case 0x1E:
                     instr_str = "I += Vx";
                     break;
                 case 0x29:
