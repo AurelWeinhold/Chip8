@@ -32,8 +32,8 @@ void detectInstruction(uint16_t instruction) {
     std::string instr_str = "";
 
     // TODO(aurel): Probably rewrite to only check the first 4 bit in the outermost switch
-    //  ((instruction & 0xf000) >> 3). This makes it more readable and avoids the ranged cases.
-    switch ((instruction & 0xf000) >> 3) {
+    //  ((instruction & 0xf000) >> 12). This makes it more readable and avoids the ranged cases.
+    switch ((instruction & 0xF000) >> 12) {
         case 0x0:
             switch (instruction & 0x0fff){
                 case 0x0e0:
@@ -65,7 +65,11 @@ void detectInstruction(uint16_t instruction) {
             break;
 
         case 0x5:
-            instr_str = "Skip if Vx == Vy";
+            switch (instruction & 0x000f) {
+                case 0:
+                    instr_str = "Skip if Vx == Vy";
+                    break;
+            }
             break;
 
         case 0x6:
