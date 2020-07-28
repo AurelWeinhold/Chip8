@@ -174,6 +174,7 @@ void detectInstruction(uint16_t instruction) {
     }
 
     if (instr_str == "") {
+        // NOTE(aurel): Print "Unknown" in red
         instr_str = "\033[31mUnknown\e[m";
     }
 
@@ -196,6 +197,7 @@ int main(int argc, char *args[]) {
     std::ifstream rom;
     std::streampos size;
 
+    // TODO(aurel): Get rom dynamically during runtime by the user input.
     // NOTE(aurel): Open file in read mode (in), binary mode (binary) and set pointer to end of file (ate)
     std::string rom_path = "c8games/";
     rom_path.append(args[1]);
@@ -209,7 +211,6 @@ int main(int argc, char *args[]) {
     }
 
     for (int i = 0; i < size; i += 2) {
-
         uint8_t upper = memory[i];
         uint8_t lower = memory[i+1];
 
