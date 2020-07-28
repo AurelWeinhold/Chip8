@@ -32,17 +32,20 @@ void detectInstruction(uint16_t instruction) {
     std::string instr_str = "";
 
     // TODO(aurel): Probably rewrite to only check the first 4 bit in the outermost switch
-    //  ((instruction & 0xf000) >> 12). This makes it more readable and avoids the ranged cases.
+    //  ((instruction & 0xF000) >> 12). This makes it more readable and avoids the ranged cases.
+    //  12 bits = 3 * 4 Bits. 4 Bits represent one hexadecimal digit.
     switch ((instruction & 0xF000) >> 12) {
         case 0x0:
-            switch (instruction & 0x0fff){
-                case 0x0e0:
+            switch (instruction & 0x0FFF){
+                case 0x0E0:
                     instr_str = "disp_clear()";
                     break;
-                case 0x0ee:
+                case 0x0EE:
                     instr_str = "Return";
                     break;
                 default:
+                    // TODO(aurel): Change this to not be the default, if possible. I don't want to find the
+                    // 0x0000 instruction here probably.
                     instr_str = "Call RCA at NNN";
                     break;
             }
@@ -65,7 +68,7 @@ void detectInstruction(uint16_t instruction) {
             break;
 
         case 0x5:
-            switch (instruction & 0x000f) {
+            switch (instruction & 0x000F) {
                 case 0:
                     instr_str = "Skip if Vx == Vy";
                     break;
@@ -81,7 +84,7 @@ void detectInstruction(uint16_t instruction) {
             break;
 
         case 0x8:
-            switch (instruction & 0x000f) {
+            switch (instruction & 0x000F) {
                 case 0x0:
                     instr_str = "Vx = Vy";
                     break;
@@ -106,7 +109,7 @@ void detectInstruction(uint16_t instruction) {
                 case 0x7:
                     instr_str = "Vx = Vy - Vx";
                     break;
-                case 0xe:
+                case 0xE:
                     instr_str = "Vx <<= Vy (lshift)";
                     break;
             }
@@ -134,7 +137,7 @@ void detectInstruction(uint16_t instruction) {
             break;
 
         case 0xE:
-            switch (instruction & 0x00ff) {
+            switch (instruction & 0x00FF) {
                 case 0x9E:
                     instr_str = "Skip if key() == Vx";
                     break;
@@ -145,7 +148,7 @@ void detectInstruction(uint16_t instruction) {
             break;
 
         case 0xF:
-            switch (instruction & 0x00ff) {
+            switch (instruction & 0x00FF) {
                 case 0x07:
                     instr_str = "Vx = getDelay()";
                     break;
